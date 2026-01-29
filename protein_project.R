@@ -4,9 +4,10 @@
 
 gc_content <- function(seq) {
   seq <- toupper(seq)
-  # Keep only valid nucleotides
   seq_vector <- strsplit(seq, "")[[1]]
   valid_nt <- seq_vector[seq_vector %in% c("A", "T", "G", "C")]
+  
+  # Calculate percentage
   gc_count <- sum(valid_nt %in% c("G", "C"))
   gc_percent <- (gc_count / length(valid_nt)) * 100
   return(gc_percent)
@@ -24,16 +25,31 @@ aa_weights <- c(
   T = 119.12, W = 204.23, Y = 181.19, V = 117.15
 )
 
-protein_weight <- function(protein_name = "Brenda") {
-  protein_name <- toupper(protein_name)
-  protein_vector <- strsplit(protein_name, "")[[1]]
+protein_weight <- function(protein_seq) {
+  protein_seq <- toupper(protein_seq)
+  protein_vector <- strsplit(protein_seq, "")[[1]]
   
-  # Keep only valid amino acids
   valid_aas <- protein_vector[protein_vector %in% names(aa_weights)]
   
   # Sum weights and convert to kDa
   total_weight <- sum(aa_weights[valid_aas]) / 1000
   return(total_weight)
 }
+
+# -----------------------------
+# Executing with Given Sequences
+# -----------------------------
+
+# Example DNA sequence
+dna_example <- "ATGCGGGTATCGCCAT"
+task1_result <- gc_content(dna_example)
+
+# Example Protein sequence (using "BRENDA")
+protein_example <- "BRENDA"
+task2_result <- protein_weight(protein_example)
+
+# Displaying the results
+print(paste("GC Content:", task1_result, "%"))
+print(paste("Protein Weight:", task2_result, "kDa"))
 
 
