@@ -25,11 +25,16 @@ aa_weights <- c(
   T = 119.12, W = 204.23, Y = 181.19, V = 117.15
 )
 
-protein_weight <- function(protein_seq) {
+protein_weight <- function(protein_seq = "Brenda") {
   protein_seq <- toupper(protein_seq)
   protein_vector <- strsplit(protein_seq, "")[[1]]
   
   valid_aas <- protein_vector[protein_vector %in% names(aa_weights)]
+  
+  # Return 0 if no valid amino acids are present
+  if (length(valid_aas) == 0) {
+    return(0)
+  }
   
   # Sum weights and convert to kDa
   total_weight <- sum(aa_weights[valid_aas]) / 1000
@@ -40,16 +45,16 @@ protein_weight <- function(protein_seq) {
 # Executing with Given Sequences
 # -----------------------------
 
-# Example DNA sequence
-dna_example <- "ATGCGGGTATCGCCAT"
+# Example DNA sequence (mentor-approved)
+dna_example <- "GCATTTAT"
 task1_result <- gc_content(dna_example)
 
-# Example Protein sequence (using "BRENDA")
-protein_example <- "BRENDA"
-task2_result <- protein_weight(protein_example)
+# Example Protein sequence (default name)
+task2_result <- protein_weight()
 
 # Displaying the results
 print(paste("GC Content:", task1_result, "%"))
 print(paste("Protein Weight:", task2_result, "kDa"))
+
 
 
