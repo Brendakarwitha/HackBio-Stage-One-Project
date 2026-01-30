@@ -1,17 +1,30 @@
-# -----------------------------
+# ---------------------------------------------------------
 # Task 1: GC% Calculation
-# -----------------------------
+# ---------------------------------------------------------
 
-gc_content <- function(seq) {
-  seq <- toupper(seq)
-  seq_vector <- strsplit(seq, "")[[1]]
-  valid_nt <- seq_vector[seq_vector %in% c("A", "T", "G", "C")]
+calculate_gc <- function(sequence) {
+  # 1. Handle case-sensitivity (converts everything to UPPERCASE)
+  sequence <- toupper(sequence)
   
-  # Calculate percentage
-  gc_count <- sum(valid_nt %in% c("G", "C"))
-  gc_percent <- (gc_count / length(valid_nt)) * 100
+  # 2. Break the string into individual letters
+  nodes <- strsplit(sequence, "")[[1]]
+  
+  # 3. Filter to keep only valid DNA bases (A, T, G, C)
+  # This ensures we don't count random characters in the percentage
+  clean_dna <- nodes[nodes %in% c("A", "T", "G", "C")]
+  
+  # 4. Count G and C occurrences
+  gc_count <- sum(clean_dna %in% c("G", "C"))
+  
+  # 5. Calculate percentage (Count / Total length * 100)
+  gc_percent <- (gc_count / length(clean_dna)) * 100
+  
   return(gc_percent)
 }
+
+# --- TEST THE FUNCTION ---
+# This line makes the result show up in your console
+calculate_gc("gcaTTTAT")
 
 # -----------------------------
 # Task 2: Protein Molecular Weight Calculator
